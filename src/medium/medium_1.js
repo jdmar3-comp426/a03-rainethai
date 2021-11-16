@@ -52,16 +52,15 @@ export function getStatistics(array) {
 	let res = {
 		length: array.length,
 		sum: getSum(array),
-		mean: array.reduce((a, b) => a + b) / array.length,
+		mean: undefined,
 		median: getMedian(array),
 		min: Math.min(...array),
 		max: Math.max(...array),
 		variance: undefined,
 		standard_deviation: undefined,
 	};
+	res.mean = res.sum / res.length;
 	res.variance = variance(array, res.mean);
 	res.standard_deviation = Math.sqrt(res.variance);
 	return res;
 }
-
-console.log(getStatistics[(2, 3, 32, 1, 32, 0)]);
