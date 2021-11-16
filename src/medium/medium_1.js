@@ -45,7 +45,7 @@ export function getMedian(array) {
  }
  */
 export function getStatistics(array) {
-	var res;
+	var res = new Array(8);
 	res[0] = array.length;
 	res[1] = getSum(array);
 	res[2] = array.reduce((a, b) => a + b) / array.length;
@@ -57,4 +57,4 @@ export function getStatistics(array) {
 	return res;
 }
 
-console.log(getSum([1, 2.5, 3, 2]));
+console.log(getStatistics([1, 2.5, 2.85, 2.5, 3, 2]));
