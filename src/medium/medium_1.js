@@ -56,5 +56,3 @@ export function getStatistics(array) {
 	res[7] = Math.sqrt(res[6]);
 	return res;
 }
-
-console.log(getStatistics([1, 2.5, 2.85, 2.5, 3, 2]));
