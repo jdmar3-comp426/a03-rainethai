@@ -59,7 +59,9 @@ export function getStatistics(array) {
 		variance: undefined,
 		standard_deviation: undefined,
 	};
-	res[variance] = variance(array, res[mean]);
-	res[standard_deviation] = Math.sqrt(res[variance]);
+	res.variance = variance(array, res.mean);
+	res.standard_deviation = Math.sqrt(res.variance);
 	return res;
 }
+
+console.log(getStatistics[(2, 3, 32, 1, 32, 0)]);
