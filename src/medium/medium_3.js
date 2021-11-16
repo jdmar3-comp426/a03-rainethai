@@ -49,7 +49,7 @@ export function searchMpg(car_data, minCity, minHighway) {
  * @param searchTerm A string to that is used for searching
  * @returns {[]} array of cars
  */
-export function searchName(car_data, searchTerm) {
+export function searchName(car_data, term) {
 	const searchTerm = term.toLowerCase();
 	return car_data
 		.filter((car) => car.id.toLowerCase().indexOf(searchTerm) !== -1)
