@@ -1,12 +1,11 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import { getStatistics } from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 see under the methods section
 */
-
 
 /**
  * This object contains data that has to do with every car in the `mpg_data` object.
@@ -20,11 +19,13 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+	avgMpg: {
+		city: getStatistics(mpg_data.map((car) => car.city_mpg)).mean,
+		highway: getStatistics(mpg_data.map((car) => car.highway_mpg)).mean,
+	},
+	allYearStats: getStatistics(mpg_data.map((car) => car.year)),
+	ratioHybrids: mpg_data.filter((car) => car.hybrid).length / mpg_data.length,
 };
-
 
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -84,6 +85,59 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+	makerHybrids: mpg_data
+		.reduce((acc, val) => {
+			if (acc.findIndex((item) => item.make === val.make) === -1) {
+				let hybrids = mpg_data
+					.filter((car) => car.make === val.make)
+					.filter((car) => car.hybrid)
+					.map((car) => car.id);
+
+				if (hybrids.length > 0) {
+					acc.push({
+						make: val.make,
+						hybrids,
+					});
+				}
+			}
+			return acc;
+		}, [])
+		.sort((a, b) => b.hybrids.length - a.hybrids.length),
+	avgMpgByYearAndHybrid: mpg_data.reduce((acc, val) => {
+		if (!acc[val.year]) {
+			const hybrid = {
+				city: getStatistics(
+					mpg_data
+						.filter((car) => car.year === val.year)
+						.filter((car) => car.hybrid)
+						.map((car) => car.city_mpg)
+				).mean,
+				highway: getStatistics(
+					mpg_data
+						.filter((car) => car.year === val.year)
+						.filter((car) => car.hybrid)
+						.map((car) => car.highway_mpg)
+				).mean,
+			};
+			const notHybrid = {
+				city: getStatistics(
+					mpg_data
+						.filter((car) => car.year === val.year)
+						.filter((car) => !car.hybrid)
+						.map((car) => car.city_mpg)
+				).mean,
+				highway: getStatistics(
+					mpg_data
+						.filter((car) => car.year === val.year)
+						.filter((car) => !car.hybrid)
+						.map((car) => car.highway_mpg)
+				).mean,
+			};
+			acc[val.year] = {
+				hybrid,
+				notHybrid,
+			};
+		}
+		return acc;
+	}, {}),
 };
