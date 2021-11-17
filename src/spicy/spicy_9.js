@@ -110,10 +110,10 @@ export const everyEven = (arr, test) => {
  *    someEven([0, 0, 0, 0, 0], x => x === 0)  <--  returns true
  */
 export const someEven = (arr, test) => {
-  for (let i = 0; i < arr.length; i+= 2) {
-    if (test(arr[i])) return true;
-  }
-  return false;
+	for (let i = 0; i < arr.length; i += 2) {
+		if (test(arr[i])) return true;
+	}
+	return false;
 };
 
 /**
@@ -138,15 +138,15 @@ export const someEven = (arr, test) => {
  *       -->  { pass: [1, 5, 31], fail: [90] }
  */
 export const filter = (arr, test) => {
-  const res {pass: [], fail: []};
-  arr.forEach(x => {
-    if (test(x)) {
-      res.pass.push(x);
-    } else {
-      res.fail.push(x);
-    }
-  })
-  return res;
+	const res = { pass: [], fail: [] };
+	arr.forEach((x) => {
+		if (test(x)) {
+			res.pass.push(x);
+		} else {
+			res.fail.push(x);
+		}
+	});
+	return res;
 };
 
 /**
@@ -154,14 +154,18 @@ export const filter = (arr, test) => {
  *   array and returns true only if all of the even elements in the array are
  *   odd numbers. Use the "everyEven" function in this function.
  */
-export const allEvensAreOdd = (arr) => {return everyEven(arr, x => x % 2 == 1)};
+export const allEvensAreOdd = (arr) => {
+	return everyEven(arr, (x) => x % 2 == 1);
+};
 
 /**
  * Write and export a function named "anEvenIsOdd" which takes as input an
  *   array and returns true if at least one of the even-indexed elements in the
  *   array is an odd number. Use the "someEven" function in this function.
  */
-export const anEvenIsOdd = (arr) => {return someEven(arr, x => x % 2 == 1)};
+export const anEvenIsOdd = (arr) => {
+	return someEven(arr, (x) => x % 2 == 1);
+};
 
 /**
  * Write and export a function named "hasExactly" which takes an array, a test
@@ -170,5 +174,5 @@ export const anEvenIsOdd = (arr) => {return someEven(arr, x => x % 2 == 1)};
  *   pass the test. You must use the filter function.
  */
 export const hasExactly = (arr, test, n) => {
-  return filter(arr, test).pass.length === n;
+	return filter(arr, test).pass.length === n;
 };
