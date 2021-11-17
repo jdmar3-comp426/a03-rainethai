@@ -26,11 +26,11 @@ export function identifyVariable(variable) {
 
  */
 export function identifyArray(array) {
-	let arr = [];
-	array.forEach((item) => {
-		arr.push(identifyVariable(item));
+	let res = [];
+	array.forEach((a) => {
+		res.push(identifyVariable(a));
 	});
-	return arr;
+	return res;
 }
 
 /**
@@ -70,8 +70,9 @@ export function removeKey(object, key) {
  If only `removeKeyNonDestructive` was called, nothing would have changed.
  */
 export function removeKeyNonDestructive(object, key) {
-	let { [key]: value, ...rest } = object;
-	return rest;
+	var copy = { ...object };
+	delete copy[key];
+	return copy;
 }
 
 /**
@@ -96,9 +97,9 @@ export function removeKeyNonDestructive(object, key) {
  * @return {*} The object with its keys removed.
  */
 export function removeKeys(object, keyList) {
-	let { ...obj } = object;
-	keyList.forEach((key) => {
-		obj = removeKeyNonDestructive(obj, key);
-	});
-	return obj;
+	var copy = { ...object };
+	for (let i = 0; i < keyList.length; i++) {
+		delete copy[keyList[i]];
+	}
+	return copy;
 }
