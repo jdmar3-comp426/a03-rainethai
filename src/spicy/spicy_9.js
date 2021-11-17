@@ -17,7 +17,7 @@
 export const repeat = (fn, n, ...params) => {
 	var res = [];
 	for (let i = 0; i < n; i++) {
-		res.push(fn(...params));
+		res[i] = fn(...params);
 	}
 	return res;
 };
@@ -174,5 +174,5 @@ export const anEvenIsOdd = (arr) => {
  *   pass the test. You must use the filter function.
  */
 export const hasExactly = (arr, test, n) => {
-	return filter(arr, test).pass.length === n;
+	return filter(arr, test).pass.length == n;
 };
