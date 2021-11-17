@@ -20,11 +20,11 @@ see under the methods section
  */
 export const allCarStats = {
 	avgMpg: {
-		city: getStatistics(mpg_data.map((car) => car.city_mpg)).mean,
-		highway: getStatistics(mpg_data.map((car) => car.highway_mpg)).mean,
+		city: getStatistics(mpg_data.map((a) => a.city_mpg)).mean,
+		highway: getStatistics(mpg_data.map((a) => a.highway_mpg)).mean,
 	},
-	allYearStats: getStatistics(mpg_data.map((car) => car.year)),
-	ratioHybrids: mpg_data.filter((car) => car.hybrid).length / mpg_data.length,
+	allYearStats: getStatistics(mpg_data.map((a) => a.year)),
+	ratioHybrids: mpg_data.filter((a) => a.hybrid).length / mpg_data.length,
 };
 
 /**
@@ -85,24 +85,6 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-	makerHybrids: mpg_data
-		.reduce((acc, val) => {
-			if (acc.findIndex((item) => item.make === val.make) === -1) {
-				let hybrids = mpg_data
-					.filter((car) => car.make === val.make)
-					.filter((car) => car.hybrid)
-					.map((car) => car.id);
-
-				if (hybrids.length > 0) {
-					acc.push({
-						make: val.make,
-						hybrids,
-					});
-				}
-			}
-			return acc;
-		}, [])
-		.sort((a, b) => b.hybrids.length - a.hybrids.length),
 	avgMpgByYearAndHybrid: mpg_data.reduce((acc, val) => {
 		if (!acc[val.year]) {
 			const hybrid = {
@@ -141,3 +123,62 @@ export const moreStats = {
 		return acc;
 	}, {}),
 };
+
+/* array.forEach((element) => {
+	if (element[key] == 2009) {
+		if (element.hybrid == true) {
+			temp[2009].hybrid.city += element.city_mpg;
+			temp[2009].hybrid.highway += element.highway_mpg;
+			temp[2009].hybrid.counter += 1;
+		} else {
+			temp[2009].notHybrid.city += element.city_mpg;
+			temp[2009].notHybrid.highway += element.highway_mpg;
+			temp[2009].notHybrid.counter += 1;
+		}
+	} else if (element[key] == 2010) {
+		if (element.hybrid == true) {
+			temp[2010].hybrid.city += element.city_mpg;
+			temp[2010].hybrid.highway += element.highway_mpg;
+			temp[2010].hybrid.counter += 1;
+		} else {
+			temp[2010].notHybrid.city += element.city_mpg;
+			temp[2010].notHybrid.highway += element.highway_mpg;
+			temp[2010].notHybrid.counter += 1;
+		}
+	} else if (element[key] == 2011) {
+		if (element.hybrid == true) {
+			temp[2011].hybrid.city += element.city_mpg;
+			temp[2011].hybrid.highway += element.highway_mpg;
+			temp[2011].hybrid.counter += 1;
+		} else {
+			temp[2011].notHybrid.city += element.city_mpg;
+			temp[2011].notHybrid.highway += element.highway_mpg;
+			temp[2011].notHybrid.counter += 1;
+		}
+	} else {
+		if (element.hybrid == true) {
+			temp[2012].hybrid.city += element.city_mpg;
+			temp[2012].hybrid.highway += element.highway_mpg;
+			temp[2012].hybrid.counter += 1;
+		} else {
+			temp[2012].notHybrid.city += element.city_mpg;
+			temp[2012].notHybrid.highway += element.highway_mpg;
+			temp[2012].notHybrid.counter += 1;
+		}
+	}
+});
+
+for (let i = 0; i < 4; i++) {
+	temp[2009 + i].hybrid.city =
+		temp[2009 + i].hybrid.city / temp[2009 + i].hybrid.counter;
+	temp[2009 + i].hybrid.highway =
+		temp[2009 + i].hybrid.highway / temp[2009 + i].hybrid.counter;
+	delete temp[2009 + i].hybrid.counter;
+	temp[2009 + i].notHybrid.city =
+		temp[2009 + i].notHybrid.city / temp[2009 + i].notHybrid.counter;
+	temp[2009 + i].notHybrid.highway =
+		temp[2009 + i].notHybrid.highway / temp[2009 + i].notHybrid.counter;
+	delete temp[2009 + i].notHybrid.counter;
+}
+return temp;
+*/
