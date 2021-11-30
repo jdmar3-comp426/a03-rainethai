@@ -89,44 +89,38 @@ export const moreStats = {
 	avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
 };
 
-function getAvgMpgByYearAndHybrid() {
-	let res = {};
-
-	mpg_data.forEach((mpg) => {
-		if (!res[mpg.year]) {
-			res[mpg.year] = {
-				hybrid: {
-					city: [],
-					highway: [],
-				},
-				notHybrid: {
-					city: [],
-					highway: [],
-				},
-			};
-		}
-		if (mpg.hybrid) {
-			res[mpg.year]["hybrid"]["city"] = mpg.city_mpg;
-			res[mpg.year]["hybrid"]["highway"] = mpg.highway_mpg;
-		} else if (!mpg.hybrid) {
-			res[mpg.year]["notHybrid"]["city"] = mpg.city_mpg;
-			res[mpg.year]["notHybrid"]["highway"] = mpg.highway_mpg;
-		}
-	});
-
-	for (let key in res) {
-		res[key]["hybrid"]["city"] = getStatistics(
-			res[key]["hybrid"]["city"]
-		).mean;
-		res[key]["hybrid"]["highway"] = getStatistics(
-			res[key]["hybrid"]["highway"]
-		).mean;
-		res[key]["notHybrid"]["city"] = getStatistics(
-			res[key]["notHybrid"]["city"]
-		).mean;
-		res[key]["notHybrid"]["highway"] = getStatistics(
-			res[key]["notHybrid"]["highway"]
-		).mean;
+mpg_data.forEach((mpg) => {
+	if (!res[mpg.year]) {
+		res[mpg.year] = {
+			hybrid: {
+				city: [],
+				highway: [],
+			},
+			notHybrid: {
+				city: [],
+				highway: [],
+			},
+		};
 	}
-	return res;
+	if (mpg.hybrid) {
+		res[mpg.year]["hybrid"]["city"].push(mpg.city_mpg);
+		res[mpg.year]["hybrid"]["highway"].push(mpg.highway_mpg);
+	} else if (!mpg.hybrid) {
+		res[mpg.year]["notHybrid"]["city"].push(mpg.city_mpg);
+		res[mpg.year]["notHybrid"]["highway"].push(mpg.highway_mpg);
+	}
+});
+
+for (let key in res) {
+	res[key]["hybrid"]["city"] = getStatistics(res[key]["hybrid"]["city"]).mean;
+	res[key]["hybrid"]["highway"] = getStatistics(
+		res[key]["hybrid"]["highway"]
+	).mean;
+	res[key]["notHybrid"]["city"] = getStatistics(
+		res[key]["notHybrid"]["city"]
+	).mean;
+	res[key]["notHybrid"]["highway"] = getStatistics(
+		res[key]["notHybrid"]["highway"]
+	).mean;
 }
+moreStats.avgMpgByYearAndHybrid = res;
