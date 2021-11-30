@@ -85,11 +85,9 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-	makerHybrids: undefined,
+	makerHybrids: [],
 	avgMpgByYearAndHybrid: undefined,
 };
-
-let moreStats.makerHybrids = [];
 
 mpg_data.forEach((a) => {
 	let bool = false;
@@ -111,7 +109,9 @@ mpg_data.forEach((a) => {
 		}
 	}
 });
-moreStats.makerHybrids.sort((a, b) => b["hybrids"].length - a["hybrids"].length);
+moreStats.makerHybrids.sort(
+	(a, b) => b["hybrids"].length - a["hybrids"].length
+);
 
 mpg_data.forEach((k) => {
 	if (obj[k.year] == undefined) {
