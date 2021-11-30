@@ -90,11 +90,11 @@ export const moreStats = {
 };
 
 function getAvgMpgByYearAndHybrid() {
-	let obj = {};
+	let res = {};
 
-	mpg_data.forEach((k) => {
-		if (obj[k.year] == undefined) {
-			obj[k.year] = {
+	mpg_data.forEach((mpg) => {
+		if (!res[mpg.year]) {
+			res[mpg.year] = {
 				hybrid: {
 					city: [],
 					highway: [],
@@ -105,28 +105,28 @@ function getAvgMpgByYearAndHybrid() {
 				},
 			};
 		}
-		if (k.hybrid) {
-			obj[k.year]["hybrid"]["city"].push(k.city_mpg);
-			obj[k.year]["hybrid"]["highway"].push(k.highway_mpg);
-		} else if (!k.hybrid) {
-			obj[k.year]["notHybrid"]["city"].push(k.city_mpg);
-			obj[k.year]["notHybrid"]["highway"].push(k.highway_mpg);
+		if (mpg.hybrid) {
+			res[mpg.year]["hybrid"]["city"].push(mpg.city_mpg);
+			res[mpg.year]["hybrid"]["highway"].push(mpg.highway_mpg);
+		} else if (!mpg.hybrid) {
+			res[mpg.year]["notHybrid"]["city"].push(mpg.city_mpg);
+			res[mpg.year]["notHybrid"]["highway"].push(mpg.highway_mpg);
 		}
 	});
 
-	for (let key in obj) {
-		obj[key]["hybrid"]["city"] = getStatistics(
-			obj[key]["hybrid"]["city"]
+	for (let key in res) {
+		res[key]["hybrid"]["city"] = getStatistics(
+			res[key]["hybrid"]["city"]
 		).mean;
-		obj[key]["hybrid"]["highway"] = getStatistics(
-			obj[key]["hybrid"]["highway"]
+		res[key]["hybrid"]["highway"] = getStatistics(
+			res[key]["hybrid"]["highway"]
 		).mean;
-		obj[key]["notHybrid"]["city"] = getStatistics(
-			obj[key]["notHybrid"]["city"]
+		res[key]["notHybrid"]["city"] = getStatistics(
+			res[key]["notHybrid"]["city"]
 		).mean;
-		obj[key]["notHybrid"]["highway"] = getStatistics(
-			obj[key]["notHybrid"]["highway"]
+		res[key]["notHybrid"]["highway"] = getStatistics(
+			res[key]["notHybrid"]["highway"]
 		).mean;
 	}
-	return obj;
+	return res;
 }
