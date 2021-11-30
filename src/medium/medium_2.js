@@ -86,7 +86,7 @@ export const allCarStats = {
  */
 export const moreStats = {
 	makerHybrids: undefined,
-	avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
+	avgMpgByYearAndHybrid: undefined,
 };
 
 let res = {};
