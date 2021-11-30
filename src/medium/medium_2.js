@@ -89,6 +89,8 @@ export const moreStats = {
 	avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
 };
 
+let res = {};
+
 mpg_data.forEach((mpg) => {
 	if (!res[mpg.year]) {
 		res[mpg.year] = {
