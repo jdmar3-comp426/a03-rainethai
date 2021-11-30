@@ -85,36 +85,9 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-	makerHybrids: getMakerHybrids(),
+	makerHybrids: undefined,
 	avgMpgByYearAndHybrid: getAvgMpgByYearAndHybrid(),
 };
-
-function getMakerHybrids() {
-	let mainArray = [];
-
-	mpg_data.forEach((k) => {
-		let exit = false;
-		if (k.hybrid) {
-			mainArray.forEach((val) => {
-				if (val["make"] == k.make) {
-					val["hybrids"].push(k.id);
-					exit = true;
-				}
-			});
-			if (exit == false) {
-				let arr = [];
-				arr.push(k.id);
-				let val = {
-					make: k.make,
-					hybrids: arr,
-				};
-				mainArray.push(val);
-			}
-		}
-	});
-	mainArray.sort((a, b) => b["hybrids"].length - a["hybrids"].length);
-	return mainArray;
-}
 
 function getAvgMpgByYearAndHybrid() {
 	let obj = {};
@@ -157,63 +130,3 @@ function getAvgMpgByYearAndHybrid() {
 	}
 	return obj;
 }
-
-// mpg_data.forEach((a) => {
-// 	let bool = false;
-// 	if (a.hybrid) {
-// 		moreStats.makerHybrids.forEach((b) => {
-// 			if (b["make"] == a.make) {
-// 				b["hybrids"].push(a.id);
-// 				bool = true;
-// 			}
-// 		});
-// 		if (!bool) {
-// 			let arr = [];
-// 			arr.push(a.id);
-// 			let val = {
-// 				make: a.make,
-// 				hybrids: arr,
-// 			};
-// 			moreStats.makerHybrids.push(val);
-// 		}
-// 	}
-// });
-// moreStats.makerHybrids.sort(
-// 	(a, b) => b["hybrids"].length - a["hybrids"].length
-// );
-
-// mpg_data.forEach((k) => {
-// 	if (obj[k.year] == undefined) {
-// 		obj[k.year] = {
-// 			hybrid: {
-// 				city: [],
-// 				highway: [],
-// 			},
-// 			notHybrid: {
-// 				city: [],
-// 				highway: [],
-// 			},
-// 		};
-// 	}
-// 	if (k.hybrid) {
-// 		obj[k.year]["hybrid"]["city"].push(k.city_mpg);
-// 		obj[k.year]["hybrid"]["highway"].push(k.highway_mpg);
-// 	} else if (!k.hybrid) {
-// 		obj[k.year]["notHybrid"]["city"].push(k.city_mpg);
-// 		obj[k.year]["notHybrid"]["highway"].push(k.highway_mpg);
-// 	}
-// });
-
-// for (let key in obj) {
-// 	obj[key]["hybrid"]["city"] = getStatistics(obj[key]["hybrid"]["city"]).mean;
-// 	obj[key]["hybrid"]["highway"] = getStatistics(
-// 		obj[key]["hybrid"]["highway"]
-// 	).mean;
-// 	obj[key]["notHybrid"]["city"] = getStatistics(
-// 		obj[key]["notHybrid"]["city"]
-// 	).mean;
-// 	obj[key]["notHybrid"]["highway"] = getStatistics(
-// 		obj[key]["notHybrid"]["highway"]
-// 	).mean;
-// }
-// moreStats.avgMpgByYearAndHybrid = obj;
