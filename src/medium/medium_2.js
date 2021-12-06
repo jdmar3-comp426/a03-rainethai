@@ -1,12 +1,11 @@
 import mpg_data from "./data/mpg_data.js";
-import {getStatistics} from "./medium_1.js";
+import { getStatistics } from "./medium_1.js";
 
 /*
 This section can be done by using the array prototype functions.
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 see under the methods section
 */
-
 
 /**
  * This object contains data that has to do with every car in the `mpg_data` object.
@@ -20,11 +19,13 @@ see under the methods section
  * @param {allCarStats.ratioHybrids} ratio of cars that are hybrids
  */
 export const allCarStats = {
-    avgMpg: undefined,
-    allYearStats: undefined,
-    ratioHybrids: undefined,
+	avgMpg: {
+		city: getStatistics(mpg_data.map((a) => a.city_mpg)).mean,
+		highway: getStatistics(mpg_data.map((a) => a.highway_mpg)).mean,
+	},
+	allYearStats: getStatistics(mpg_data.map((a) => a.year)),
+	ratioHybrids: mpg_data.filter((a) => a.hybrid).length / mpg_data.length,
 };
-
 
 /**
  * HINT: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
@@ -84,6 +85,44 @@ export const allCarStats = {
  * }
  */
 export const moreStats = {
-    makerHybrids: undefined,
-    avgMpgByYearAndHybrid: undefined
+	makerHybrids: undefined,
+	avgMpgByYearAndHybrid: undefined,
 };
+
+let res = {};
+
+mpg_data.forEach((mpg) => {
+	if (!res[mpg.year]) {
+		res[mpg.year] = {
+			hybrid: {
+				city: [],
+				highway: [],
+			},
+			notHybrid: {
+				city: [],
+				highway: [],
+			},
+		};
+	}
+	if (mpg.hybrid) {
+		res[mpg.year]["hybrid"]["city"].push(mpg.city_mpg);
+		res[mpg.year]["hybrid"]["highway"].push(mpg.highway_mpg);
+	} else if (!mpg.hybrid) {
+		res[mpg.year]["notHybrid"]["city"].push(mpg.city_mpg);
+		res[mpg.year]["notHybrid"]["highway"].push(mpg.highway_mpg);
+	}
+});
+
+for (let key in res) {
+	res[key]["hybrid"]["city"] = getStatistics(res[key]["hybrid"]["city"]).mean;
+	res[key]["hybrid"]["highway"] = getStatistics(
+		res[key]["hybrid"]["highway"]
+	).mean;
+	res[key]["notHybrid"]["city"] = getStatistics(
+		res[key]["notHybrid"]["city"]
+	).mean;
+	res[key]["notHybrid"]["highway"] = getStatistics(
+		res[key]["notHybrid"]["highway"]
+	).mean;
+}
+moreStats.avgMpgByYearAndHybrid = res;

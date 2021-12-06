@@ -6,9 +6,11 @@
  * returns: { type: 'number', value: 4 }
  */
 export function identifyVariable(variable) {
-
+	return {
+		type: typeof variable,
+		value: variable,
+	};
 }
-
 
 /**
  *
@@ -24,7 +26,11 @@ export function identifyVariable(variable) {
 
  */
 export function identifyArray(array) {
-
+	let res = [];
+	array.forEach((a) => {
+		res.push(identifyVariable(a));
+	});
+	return res;
 }
 
 /**
@@ -44,7 +50,7 @@ export function identifyArray(array) {
  obj now does not contain the `password` field
  */
 export function removeKey(object, key) {
-
+	return delete object[key];
 }
 
 /**
@@ -64,7 +70,9 @@ export function removeKey(object, key) {
  If only `removeKeyNonDestructive` was called, nothing would have changed.
  */
 export function removeKeyNonDestructive(object, key) {
-
+	var copy = { ...object };
+	delete copy[key];
+	return copy;
 }
 
 /**
@@ -89,5 +97,9 @@ export function removeKeyNonDestructive(object, key) {
  * @return {*} The object with its keys removed.
  */
 export function removeKeys(object, keyList) {
-
+	var copy = { ...object };
+	for (let i = 0; i < keyList.length; i++) {
+		delete copy[keyList[i]];
+	}
+	return copy;
 }
